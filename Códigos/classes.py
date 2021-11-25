@@ -1,12 +1,11 @@
 #CLASSE PEÇA
 class Peca: #Peça seria o produto que é comercializado. E pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
-	def __init__(self, codigo, nome, valor_unit):
-		self.__codigo = codigo
+	def __init__(self, nome, valor_unit):
 		self.__nome = nome
 		self.__valor_unit = valor_unit
 
 	def __str__(self):
-		return f"|{self.__codigo}			|{self.__nome}.					|R${self.__valor_unit}			|"
+		return f"|{self.__nome}.					|R${self.__valor_unit}			|"
 
 	@property
 	def nome(self):
@@ -25,7 +24,7 @@ class Peca: #Peça seria o produto que é comercializado. E pode-se vender mais 
 		print("Valor alterado.")
 
 #CLASSE VENDA
-class Venda(Peca): #Pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
+class Venda: #Pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
 	seq_pin = 0
 	def __init__(self, peca, data, quantidade, forma_pag, desconto=0):
 		Venda.seq_pin += 1 #atribui um id de venda, que é unico.
