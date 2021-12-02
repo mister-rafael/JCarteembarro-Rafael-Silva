@@ -14,6 +14,11 @@ def cadastrarPeca(conexao, peca):
 		print(f"{peca.nome} cadastrado com sucesso.")
 	else:
 		print("O item não é uma peça.")
+def removerPeca(conexao, codPeca):
+	cursor = conexao.cursor()
+	cursor.execute("DELETE FROM estoque_pecas WHERE codPeca = codPeca")
+	conexao.commit()
+	print("removida com sucesso.")
 
 def estoque_pecas(conexao):
 	print("|Código |Descrição		  |Valor Unitário	|")
