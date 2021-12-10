@@ -1,5 +1,23 @@
-#CLASSE PEÇA
-class Peca: #Peça seria o produto que é comercializado. E pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
+from datetime import datetime
+from peewee import ( SqliteDatabase, Model, TextField, ForeignKeyField,DateTimeField, IntegerField)
+
+base_dados = SqliteDatabase('bancoDeDados_jc.db')
+
+class BaseModel(Model):
+	class Meta:
+		database = base_dados
+
+
+class Peca(BaseModel): #Peça seria o produto que é comercializado. E pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
+	nome = ...
+	valor_unit = ...
+	tamanhoPeca = ... #recebe chave estrangeira
+	qtd_estoque = ...
+	saldo_inicial = ...
+	qtd_entrada = ...
+	qtd_saida = ...
+
+
 	def __init__(self, nome, valor_unit):
 		self.__nome = nome
 		self.__valor_unit = valor_unit
@@ -23,12 +41,8 @@ class Peca: #Peça seria o produto que é comercializado. E pode-se vender mais 
 		self.__valor_unit = novo_valor
 		print("Valor alterado.")
 
-#CLASSE VENDA
-class Venda: #Pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
-	seq_pin = 0
+class item_Venda(BaseModel): #Pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
 	def __init__(self, peca, data, quantidade, forma_pag, desconto=0):
-		Venda.seq_pin += 1 #atribui um id de venda, que é unico.
-		self.__id_venda = Venda.seq_pin
 		if type(peca) == Peca:
 			self.__peca = peca
 		else:
@@ -41,6 +55,16 @@ class Venda: #Pode-se vender mais de uma peça por vez, mas, uma peça só pode 
 
 	def __str__(self):
 		return f"Produto vendido: {self.__peca}"
+
+class controle_entrada:
+	peca = ...
+	dataEntrada = ...
+	qtd_entrada = ...
+
+class categTamanho:
+	pass
+
+
 
 
 
