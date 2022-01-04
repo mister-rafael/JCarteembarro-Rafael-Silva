@@ -7,8 +7,9 @@ class BaseModel(Model):
 	class Meta:
 		database = db
 
+#PARTE DE PEÇAS
 class CategTamanho(BaseModel):
-	tamanhoPeca = TextField() #Informa se a peça é (principalemente, quando for conjunto): PEQUENA, MÉDIA, GRANDE ou tamanho UNICO
+	tamanhoPeca = TextField(unique = True) #Informa se a peça é (principalmente, quando for conjunto): PEQUENA, MÉDIA, GRANDE ou tamanho UNICO
 
 
 class Peca(BaseModel): #Peça seria o produto que é comercializado. E pode-se vender mais de uma peça por vez, mas, uma peça só pode ser vendida uma vez.
@@ -33,5 +34,39 @@ class ControleEntrada(BaseModel):
 	peca = ForeignKeyField(Peca, backref='controle_entrada') #recebe chave estrangeira #chave estrangeira
 	dataEntrada = DateTimeField(default=datetime.now)
 	qtd_entrada = IntegerField()
+'''try:
+	db.create_tables([Peca, CategTamanho, ItemVenda, ControleEntrada])
+	print("Tabela criadas com sucesso")
+except:
+	print("Tabela já existem no banco.")'''
 
-db.create_tables([Peca, CategTamanho, ItemVenda, ControleEntrada])
+#PARTE DE MATERIAIS
+
+class Material(BaseModel):
+	nome	= TextField()
+	und_medida = TextField()
+	qtd_estoque = IntegerField()
+	qtd_inicial = IntegerField()
+	qtd_entrada = IntegerField()
+	qtd_saida = IntegerField()
+	ultima_compra = DateTimeField()
+
+class ControleSaida(BaseModel):
+	produto = ForeignKeyField(Material, backref = 'controleSaida') #chave estrangeira para a tabela Material
+	dataSaida = DateTimeField(default = datetime.now)
+	quantidade = IntegerField()
+
+class ItemCompra(BaseModel):
+	produto = ForeignKeyField(Material, backref = 'item_entrada') #chave estrangeira para a tabela Material
+	dataCompra = DateTimeField(default = datetime.now)
+	qtd_comprada = IntegerField()
+	valor_unit = DecimalField()
+	desconto = DecimalField()
+	valor_pago = DecimalField()
+
+
+try:
+	db.create_tables([Material, ControleSaida , ItemCompra])
+	print("Tabela criadas com sucesso")
+except:
+	print("Tabela já existem no banco.")
